@@ -22,10 +22,10 @@ def create_text(in_text, x, y, size):
 
 
 def box(surface, x, y):
-    pg.draw.line(surface, (0, 0, 0), (x, y), (x, y + 100), 2)
-    pg.draw.line(surface, (0, 0, 0), (x, y), (x + 450, y), 2)
-    pg.draw.line(surface, (0, 0, 0), (x + 450, y), (x + 450, y + 100), 2)
-    pg.draw.line(surface, (0, 0, 0), (x, y + 100), (x + 450, y + 100), 2)
+    pg.draw.line(surface, (0, 0, 0), (x, y), (x, y + 100), 3)
+    pg.draw.line(surface, (0, 0, 0), (x, y), (x + 450, y), 3)
+    pg.draw.line(surface, (0, 0, 0), (x + 450, y), (x + 450, y + 100), 3)
+    pg.draw.line(surface, (0, 0, 0), (x, y + 100), (x + 450, y + 100), 3)
 
 
 

@@ -25,7 +25,7 @@ kibble_counter = catfunctions.create_text("0", 100, 40, 50)
 fish_counter = catfunctions.create_text("0", 100, 130, 50)
 milk_counter = catfunctions.create_text("0", 100, 240, 50)
 
-breadcat_lvl = catfunctions.create_text(f"level: {base_level}", 900, 100, 30)
+breadcat_lvl = catfunctions.create_text(f"level: {base_level}", 900, 100, 20)
 breadcat_name = catfunctions.create_text("breadcat", 900, 60, 30)
 
 # tabs
@@ -65,16 +65,20 @@ while True:
         if event.type == pg.MOUSEBUTTONDOWN:
             if 1251 <= mouse[0] <= 1251 + 149 and 0 <= mouse[1] <= 139:
                 catfunctions.box(background, 750, 50)
-                #background.blit(button_test[0], button_test[1])
+                # background.blit(button_test[0], button_test[1])
                 background.blit(breadcat_idle[0], breadcat_idle[1])
                 background.blit(breadcat_name[0], breadcat_name[1])
                 background.blit(breadcat_lvl[0], breadcat_lvl[1])
-
 
     mouse = pg.mouse.get_pos()
     if 1251 <= mouse[0] <= 1251 + 149 and 0 <= mouse[1] <= 139:
         pg.draw.rect(background, color_dark, [1253, 0, 149, 137])
 
+    else:
+        pg.draw.rect(background, color_light, [1253, 0, 149, 137])
+
+    if 700 <= mouse[0] <= 1251 + 149 and 0 <= mouse[1] <= 139:
+        pg.draw.rect(background, color_dark, [1253, 0, 149, 137])
     else:
         pg.draw.rect(background, color_light, [1253, 0, 149, 137])
 
