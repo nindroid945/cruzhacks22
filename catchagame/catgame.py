@@ -180,7 +180,7 @@ while True:
             if cat_menu:
                 if "breadcat" in p.cats:
                     if 1100 <= mouse[0] <= 1200 and 60 <= mouse[1] <= 160:
-                        if p.kibble >= 10:
+                        if p.kibble >= p.cats["breadcat"].cost:
                             #base_level += 1
                             #p.cats["breadcat"].level += 1
                             p.cats["breadcat"].levelup()
@@ -189,10 +189,24 @@ while True:
                             update_kibble()
                 if "dogcat" in p.cats:
                     if 1100 <= mouse[0] <= 1200 and 210 <= mouse[1] <= 310:
-                        if p.kibble >= 10:
+                        if p.kibble >= p.cats["dogcat"].cost:
                             p.cats["dogcat"].levelup()
                             p.kpc += 1
                             p.kibble -= 10
+                            update_kibble()
+                if "applecat" in p.cats:
+                    if 1100 <= mouse[0] <= 1200 and 360 <= mouse[1] <= 460:
+                        if p.kibble >= p.cats["applecat"].cost:
+                            p.cats["applecat"].levelup()
+                            p.kpc += 5
+                            p.kibble -= 25
+                            update_kibble()
+                if "suscat" in p.cats:
+                    if 1100 <= mouse[0] <= 1200 and 510 <= mouse[1] <= 610:
+                        if p.kibble >= p.cats["suscat"].cost:
+                            p.cats["suscat"].levelup()
+                            p.kpc += 5
+                            p.kibble -= 25
                             update_kibble()
 
             if gacha_menu:
@@ -237,7 +251,7 @@ while True:
                             text = catfunctions.create_text("already have {}...".format(rolls[j][0]), 50, 600, 20)
                             background.blit(text[0], text[1])
                             p.fish += 5
-                            #update_fish()
+                            #rupdate_fish()
                         p.fish -= 10
                         update_fish()
 
@@ -364,30 +378,10 @@ while True:
         catfunctions.box(background, 750, 500)
         u1 = UpgradeBox(p, "kibble-inator", 50)
         u1.display_upgrade_box()
-        """
-        upgrade_name = catfunctions.create_text("mega kibbler", 760, 60, 30)
-        upgrade_level = catfunctions.create_text("level: {}".format(p.upgrades["mega kibbler"]), 760, 95, 20)
-        upgrade_cost = catfunctions.create_text("cost: {} fish".format(10), 760, 120, 20)
-        upgrade_upgrade1 = catfunctions.icon_formatter("upgrade_icon.png", 1100, 60, 80, 80)
-        upgrade_upgrade2 = catfunctions.icon_formatter("upgrade_icon.png", 1105, 65, 70, 70)
-        background.blit(upgrade_name[0], upgrade_name[1])
-        background.blit(upgrade_level[0], upgrade_level[1])
-        background.blit(upgrade_cost[0], upgrade_cost[1])
-        background.blit(upgrade_upgrade1[0], upgrade_upgrade1[1])
-        """
         if 1100 <= mouse[0] <= 1200 and 60 <= mouse[1] <= 160:
             u1.hover_upgrade_box()
-            """
-            pg.draw.rect(background, (255, 255, 255), [1110, 65, 60, 70])
-            background.blit(upgrade_upgrade2[0], upgrade_upgrade2[1])
-            background.blit(upgrade_cost[0], upgrade_cost[1])
-            """
         else:
             u1.unhover_upgrade_box()
-            """
-            pg.draw.rect(background, (255, 255, 255), [1110, 65, 60, 70])
-            background.blit(upgrade_upgrade1[0], upgrade_upgrade1[1])
-            """
     elif achievements_menu:
         pg.draw.rect(background, vanilla, [702, 0, 546, 700])
         text1 = catfunctions.create_text("collect every cat!", 760, 325, 20)
