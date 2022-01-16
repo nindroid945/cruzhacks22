@@ -6,7 +6,7 @@ class Player:
     def __init__(self):
         self.click_count = 0
         self.kibble = 0
-        self.fish = 30
+        self.fish = 0
         self.milk = 0
         self.cats = {}
         self.kpc = 1

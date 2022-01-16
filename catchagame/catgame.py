@@ -181,34 +181,31 @@ while True:
                 if "breadcat" in p.cats:
                     if 1100 <= mouse[0] <= 1200 and 60 <= mouse[1] <= 160:
                         if p.kibble >= p.cats["breadcat"].cost:
-                            #base_level += 1
-                            #p.cats["breadcat"].level += 1
+                            p.kibble -= p.cats["breadcat"].cost
                             p.cats["breadcat"].levelup()
                             p.kpc += 1
-                            p.kibble -= 10
                             update_kibble()
                 if "dogcat" in p.cats:
                     if 1100 <= mouse[0] <= 1200 and 210 <= mouse[1] <= 310:
                         if p.kibble >= p.cats["dogcat"].cost:
+                            p.kibble -= p.cats["dogcat"].cost
                             p.cats["dogcat"].levelup()
                             p.kpc += 1
-                            p.kibble -= 10
                             update_kibble()
                 if "applecat" in p.cats:
                     if 1100 <= mouse[0] <= 1200 and 360 <= mouse[1] <= 460:
                         if p.kibble >= p.cats["applecat"].cost:
+                            p.kibble -= p.cats["applecat"].cost
                             p.cats["applecat"].levelup()
                             p.kpc += 5
-                            p.kibble -= 25
                             update_kibble()
                 if "suscat" in p.cats:
                     if 1100 <= mouse[0] <= 1200 and 510 <= mouse[1] <= 610:
                         if p.kibble >= p.cats["suscat"].cost:
+                            p.kibble -= p.cats["suscat"].cost
                             p.cats["suscat"].levelup()
                             p.kpc += 5
-                            p.kibble -= 25
                             update_kibble()
-
             if gacha_menu:
                 if 750 <= mouse[0] <= 1200 and 250 <= mouse[1] <= 350:
                     if p.kibble >= 10:
@@ -253,6 +250,13 @@ while True:
                             p.fish += 5
                             #rupdate_fish()
                         p.fish -= 10
+                        update_fish()
+            if upgrade_menu:
+                if 1100 <= mouse[0] <= 1200 and 60 <= mouse[1] <= 160:
+                    if p.fish >= p.upgrades["kibble-inator"].cost:
+                        p.fish -= p.upgrades["kibble-inator"].cost
+                        p.upgrades["kibble-inator"].levelup()
+                        p.kpc += 20
                         update_fish()
 
     # hover
@@ -373,9 +377,9 @@ while True:
     elif upgrade_menu:
         pg.draw.rect(background, (255, 255, 255), [702, 0, 546, 700])
         catfunctions.box(background, 750, 50)
-        catfunctions.box(background, 750, 200)
-        catfunctions.box(background, 750, 350)
-        catfunctions.box(background, 750, 500)
+        #catfunctions.box(background, 750, 200)
+        #catfunctions.box(background, 750, 350)
+        #catfunctions.box(background, 750, 500)
         u1 = UpgradeBox(p, "kibble-inator", 50)
         u1.display_upgrade_box()
         if 1100 <= mouse[0] <= 1200 and 60 <= mouse[1] <= 160:
@@ -384,10 +388,14 @@ while True:
             u1.unhover_upgrade_box()
     elif achievements_menu:
         pg.draw.rect(background, vanilla, [702, 0, 546, 700])
-        text1 = catfunctions.create_text("collect every cat!", 760, 325, 20)
-        text2 = catfunctions.create_text("something magical will happen!", 760, 375, 20)
-        background.blit(text1[0], text1[1])
-        background.blit(text2[0], text2[1])
+        if not game_over:
+            text1 = catfunctions.create_text("collect every cat!", 760, 325, 20)
+            text2 = catfunctions.create_text("something magical will happen!", 760, 375, 20)
+            background.blit(text1[0], text1[1])
+            background.blit(text2[0], text2[1])
+        else:
+            text = catfunctions.create_text("thank you for playing!", 760, 355, 20)
+            background.blit(text[0], text[1])
     else:
         pg.draw.rect(background, (255, 255, 255), [702, 0, 546, 700])
 
