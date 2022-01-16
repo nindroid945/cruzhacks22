@@ -1,8 +1,10 @@
 import os
 import pygame as pg
+import random
 import catfunctions
 import player
 import icons
+
 
 pg.init()
 p = player.Player()
@@ -22,6 +24,12 @@ base_level = 0
 kibble_counter = catfunctions.create_text(str(p.kibble), 100, 40, 50)
 fish_counter = catfunctions.create_text(str(p.fish), 100, 130, 50)
 milk_counter = catfunctions.create_text(str(p.milk), 100, 240, 50)
+
+
+def update_kibble():
+    pg.draw.rect(background, (255, 255, 255), [100, 0, 598, 100])
+    kc = catfunctions.create_text(str(p.kibble), 100, 40, 50)
+    background.blit(kc[0], kc[1])
 
 """
 breadcat_lvl = catfunctions.create_text(f"level: {base_level}", 900, 100, 20)
@@ -92,14 +100,29 @@ while True:
                 # exit
                 # if 589 < mouse[1] <= 700:
             if cat_menu:
-                if 1100 <= mouse[0] <= 1100 + 100 and 60 <= mouse[1] <= 160:
+                if "breadcat" in p.cats:
+                    if 1100 <= mouse[0] <= 1200 and 60 <= mouse[1] <= 160:
+                        if p.kibble >= 10:
+                            #base_level += 1
+                            #p.cats["breadcat"].level += 1
+                            p.cats["breadcat"].levelup()
+                            p.kpc += 1
+                            p.kibble -= 10
+                            update_kibble()
+
+            if gacha_menu:
+                if 750 <= mouse[0] <= 1200 and 250 <= mouse[1] <= 350:
                     if p.kibble >= 10:
-                        base_level += 1
-                        p.kpc += 1
+                        rolls = [("breadcat", "breadcat_idle.png", 10), ("dogcat", "dogcat_idle.png", 10)]
+                        i = random.randint(0, 1)
+                        p.get_cat(rolls[i][0], rolls[i][1], rolls[i][2])
                         p.kibble -= 10
+                        #update_kibble()
+
                         pg.draw.rect(background, (255, 255, 255), [100, 0, 598, 100])
                         kibble_counter = catfunctions.create_text(str(p.kibble), 100, 40, 50)
                         background.blit(kibble_counter[0], kibble_counter[1])
+
 
 
     # hover
@@ -147,24 +170,44 @@ while True:
     """
     if cat_menu:
         pg.draw.rect(background, (255, 255, 255), [710, 5, 530, 690])
-        breadcat_name = catfunctions.create_text("breadcat", 900, 60, 30)
-        breadcat_lvl = catfunctions.create_text(f"level: {base_level}", 900, 95, 20)
-        breadcat_cost = catfunctions.create_text("cost: 10 kibble", 900, 120, 20)
-        breadcat_upgrade1 = catfunctions.icon_formatter("upgrade_icon.png", 1100, 60, 80, 80)
-        breadcat_upgrade2 = catfunctions.icon_formatter("upgrade_icon.png", 1105, 65, 70, 70)
-        upgrade_hover = catfunctions.icon_formatter("upgrade_icon.png", 1080, 40, 100, 100)
         catfunctions.box(background, 750, 50)
-        background.blit(breadcat_idle[0], breadcat_idle[1])
-        background.blit(breadcat_name[0], breadcat_name[1])
-        background.blit(breadcat_lvl[0], breadcat_lvl[1])
-        background.blit(breadcat_upgrade1[0], breadcat_upgrade1[1])
-        if 1100 <= mouse[0] <= 1100 + 100 and 60 <= mouse[1] <= 160:
-            pg.draw.rect(background, (255, 255, 255), [1110, 65, 60, 70])
-            background.blit(breadcat_upgrade2[0], breadcat_upgrade2[1])
-            background.blit(breadcat_cost[0], breadcat_cost[1])
-        else:
-            pg.draw.rect(background, (255, 255, 255), [1110, 65, 60, 70])
+        catfunctions.box(background, 750, 200)
+        catfunctions.box(background, 750, 350)
+        catfunctions.box(background, 750, 500)
+        if "breadcat" in p.cats:
+            breadcat_name = catfunctions.create_text("breadcat", 900, 60, 30)
+            breadcat_lvl = catfunctions.create_text("level: {}".format(p.cats["breadcat"].level), 900, 95, 20)
+            breadcat_cost = catfunctions.create_text("cost: {} kibble".format(p.cats["breadcat"].cost), 900, 120, 20)
+            breadcat_upgrade1 = catfunctions.icon_formatter("upgrade_icon.png", 1100, 60, 80, 80)
+            breadcat_upgrade2 = catfunctions.icon_formatter("upgrade_icon.png", 1105, 65, 70, 70)
+            upgrade_hover = catfunctions.icon_formatter("upgrade_icon.png", 1080, 40, 100, 100)
+            background.blit(breadcat_idle[0], breadcat_idle[1])
+            background.blit(breadcat_name[0], breadcat_name[1])
+            background.blit(breadcat_lvl[0], breadcat_lvl[1])
             background.blit(breadcat_upgrade1[0], breadcat_upgrade1[1])
+            if 1100 <= mouse[0] <= 1200 and 60 <= mouse[1] <= 160:
+                pg.draw.rect(background, (255, 255, 255), [1110, 65, 60, 70])
+                background.blit(breadcat_upgrade2[0], breadcat_upgrade2[1])
+                background.blit(breadcat_cost[0], breadcat_cost[1])
+            else:
+                pg.draw.rect(background, (255, 255, 255), [1110, 65, 60, 70])
+                background.blit(breadcat_upgrade1[0], breadcat_upgrade1[1])
+        else:
+            locked = catfunctions.create_text("locked cat", 900, 60, 30)
+            background.blit(locked[0], locked[1])
+        """
+        if "dogcat" in p.cats:
+            cat_name = catfunctions.create_text("dogcat", 900, 210, 30)
+            cat_lvl = catfunctions.create_text("level: {}".format(p.cats["dogcat"].level), 900, 245, 20)
+            cat_cost = catfunctions.create_text("cost: {} kibble".format(p.cats["dogcat"].cost), 900, 270, 20)
+            breadcat_upgrade1 = catfunctions.icon_formatter("upgrade_icon.png", 1100, 60, 80, 80)
+            breadcat_upgrade2 = catfunctions.icon_formatter("upgrade_icon.png", 1105, 65, 70, 70)
+            upgrade_hover = catfunctions.icon_formatter("upgrade_icon.png", 1080, 40, 100, 100)
+            background.blit(breadcat_idle[0], breadcat_idle[1])
+            background.blit(breadcat_name[0], breadcat_name[1])
+            background.blit(breadcat_lvl[0], breadcat_lvl[1])
+            background.blit(breadcat_upgrade1[0], breadcat_upgrade1[1])
+        """
     elif gacha_menu:
         pg.draw.rect(background, (255, 255, 255), [710, 5, 530, 690])
         catfunctions.box(background, 750, 250)

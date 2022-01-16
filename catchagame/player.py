@@ -7,5 +7,5 @@ class Player:
         self.cats = {}
         self.kpc = 1
 
-    def get_cat(self, name, icon):
-        self.cats[name] = cats.Cat(name, icon)
+    def get_cat(self, name, icon, cost):
+        self.cats[name] = cats.Cat(name, icon, cost)
