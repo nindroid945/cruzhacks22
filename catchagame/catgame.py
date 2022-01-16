@@ -145,7 +145,15 @@ while True:
                     if p.kibble >= 10:
                         rolls = [("breadcat", "breadcat_idle.png", 10), ("dogcat", "dogcat_idle.png", 10)]
                         i = random.randint(0, 1)
-                        p.get_cat(rolls[i][0], rolls[i][1], rolls[i][2])
+                        if rolls[i][0] not in p.cats:
+                            pg.draw.rect(background, (255, 255, 255), [50, 600, 400, 100])
+                            text = catfunctions.create_text("new cat! obtained {}!".format(rolls[i][0]), 50, 600, 20)
+                            background.blit(text[0], text[1])
+                            p.get_cat(rolls[i][0], rolls[i][1], rolls[i][2])
+                        else:
+                            pg.draw.rect(background, (255, 255, 255), [50, 600, 400, 100])
+                            text = catfunctions.create_text("already have {}...".format(rolls[i][0]), 50, 600, 20)
+                            background.blit(text[0], text[1])
                         p.kibble -= 10
                         update_kibble()
 
@@ -209,25 +217,34 @@ while True:
             locked = catfunctions.create_text("locked cat", 900, 60, 30)
             background.blit(locked[0], locked[1])
         if "dogcat" in p.cats:
-            cat_idle = catfunctions.icon_formatter(p.cats["dogcat"].icon, 750, 180, 140, 140)
-            cat_name = catfunctions.create_text("dogcat", 900, 210, 30)
-            cat_lvl = catfunctions.create_text("level: {}".format(p.cats["dogcat"].level), 900, 245, 20)
-            cat_cost = catfunctions.create_text("cost: {} kibble".format(p.cats["dogcat"].cost), 900, 270, 20)
-            cat_upgrade1 = catfunctions.icon_formatter("upgrade_icon.png", 1100, 210, 80, 80)
-            cat_upgrade2 = catfunctions.icon_formatter("upgrade_icon.png", 1105, 215, 70, 70)
-            background.blit(cat_idle[0], cat_idle[1])
-            background.blit(cat_name[0], cat_name[1])
-            background.blit(cat_lvl[0], cat_lvl[1])
-            background.blit(cat_upgrade1[0], cat_upgrade1[1])
+            d = CatBox(p, "dogcat", 200)
+            d.display_cat_box()
             if 1100 <= mouse[0] <= 1200 and 210 <= mouse[1] <= 310:
-                pg.draw.rect(background, (255, 255, 255), [1110, 215, 60, 70])
-                background.blit(cat_upgrade2[0], cat_upgrade2[1])
-                background.blit(cat_cost[0], cat_cost[1])
+                d.hover_cat_box()
             else:
-                pg.draw.rect(background, (255, 255, 255), [1110, 215, 60, 70])
-                background.blit(cat_upgrade1[0], cat_upgrade1[1])
+                d.unhover_cat_box()
         else:
             locked = catfunctions.create_text("locked cat", 900, 210, 30)
+            background.blit(locked[0], locked[1])
+        if "applecat" in p.cats:
+            a = CatBox(p, "applecat", 350)
+            a.display_cat_box()
+            if 1100 <= mouse[0] <= 1200 and 360 <= mouse[1] <= 460:
+                a.hover_cat_box()
+            else:
+                a.unhover_cat_box()
+        else:
+            locked = catfunctions.create_text("locked cat", 900, 360, 30)
+            background.blit(locked[0], locked[1])
+        if "suscat" in p.cats:
+            s = CatBox(p, "suscat", 500)
+            s.display_cat_box()
+            if 1100 <= mouse[0] <= 1200 and 510 <= mouse[1] <= 610:
+                s.hover_cat_box()
+            else:
+                s.hover_cat_box()
+        else:
+            locked = catfunctions.create_text("locked cat", 900, 510, 30)
             background.blit(locked[0], locked[1])
     elif gacha_menu:
         pg.draw.rect(background, (255, 255, 255), [702, 0, 546, 700])
@@ -259,6 +276,12 @@ while True:
         else:
             pg.draw.rect(background, (255, 255, 255), [1110, 65, 60, 70])
             background.blit(upgrade_upgrade1[0], upgrade_upgrade1[1])
+    elif achievements_menu:
+        pg.draw.rect(background, vanilla, [702, 0, 546, 700])
+        text1 = catfunctions.create_text("collect every cat!", 760, 325, 20)
+        text2 = catfunctions.create_text("something magical will happen!", 760, 375, 20)
+        background.blit(text1[0], text1[1])
+        background.blit(text2[0], text2[1])
     else:
         pg.draw.rect(background, (255, 255, 255), [702, 0, 546, 700])
 
