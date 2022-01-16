@@ -21,7 +21,7 @@ color_light = (170, 170, 170)
 color_dark = (100, 100, 100)
 vanilla = (242, 230, 177)
 
-base_level = 0
+game_over = False
 
 kibble_counter = catfunctions.create_text(str(p.kibble), 100, 40, 50)
 fish_counter = catfunctions.create_text(str(p.fish), 100, 130, 50)
@@ -33,10 +33,18 @@ def update_kibble():
     kc = catfunctions.create_text(str(p.kibble), 100, 40, 50)
     background.blit(kc[0], kc[1])
 
+
 def update_fish():
     pg.draw.rect(background, (255, 255, 255), [100, 100, 598, 100])
     fc = catfunctions.create_text(str(p.fish), 100, 130, 50)
     background.blit(fc[0], fc[1])
+
+
+def update_milk():
+    pg.draw.rect(background, (255, 255, 255), [100, 200, 598, 100])
+    mc = catfunctions.create_text(str(p.milk), 100, 240, 50)
+    background.blit(mc[0], mc[1])
+
 
 def congrats():
     congrats1 = catfunctions.create_text("congratulations!", 250, 250, 20)
@@ -47,6 +55,7 @@ def congrats():
     background.blit(congrats2[0], congrats2[1])
     background.blit(congrats3[0], congrats3[1])
     background.blit(congrats4[0], congrats4[1])
+
 
 class CatBox:
     def __init__(self, pp, name, y):
@@ -196,13 +205,17 @@ while True:
                             text = catfunctions.create_text("new cat! obtained {}!".format(rolls[i][0]), 50, 600, 20)
                             background.blit(text[0], text[1])
                             p.get_cat(rolls[i][0], rolls[i][1], rolls[i][2])
-                            if len(p.cats) == len(cats.all_cats):
+                            if len(p.cats) == len(cats.all_cats) and not game_over:
                                 congrats()
+                                p.milk += 1
+                                update_milk()
+                                game_over = not game_over
                         else:
                             pg.draw.rect(background, (255, 255, 255), [50, 600, 400, 100])
                             text = catfunctions.create_text("already have {}...".format(rolls[i][0]), 50, 600, 20)
                             background.blit(text[0], text[1])
                             p.fish += 1
+                            update_fish()
                         p.kibble -= 10
                         update_kibble()
                 if 750 <= mouse[0] <= 1200 and 400 <= mouse[1] <= 500:
@@ -214,13 +227,17 @@ while True:
                             text = catfunctions.create_text("new cat! obtained {}!".format(rolls[j][0]), 50, 600, 20)
                             background.blit(text[0], text[1])
                             p.get_cat(rolls[j][0], rolls[j][1], rolls[j][2])
-                            if len(p.cats) == len(cats.all_cats):
+                            if len(p.cats) == len(cats.all_cats) and not game_over:
                                 congrats()
+                                p.milk += 1
+                                update_milk()
+                                game_over = not game_over
                         else:
                             pg.draw.rect(background, (255, 255, 255), [50, 600, 400, 100])
                             text = catfunctions.create_text("already have {}...".format(rolls[j][0]), 50, 600, 20)
                             background.blit(text[0], text[1])
                             p.fish += 5
+                            #update_fish()
                         p.fish -= 10
                         update_fish()
 
