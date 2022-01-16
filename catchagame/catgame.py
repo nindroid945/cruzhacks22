@@ -27,6 +27,8 @@ milk_counter = catfunctions.create_text("0", 100, 240, 50)
 
 breadcat_lvl = catfunctions.create_text(f"level: {base_level}", 900, 100, 20)
 breadcat_name = catfunctions.create_text("breadcat", 900, 60, 30)
+breadcat_upgrade = catfunctions.icon_formatter("upgrade_icon.png", 1100, 60, 80, 80)
+upgrade_hover = catfunctions.icon_formatter("upgrade_icon.png", 1080, 40, 100, 100)
 
 # tabs
 cat_icon = catfunctions.icon_formatter("cat_icon.png", 1251, 0, 140, 140)
@@ -35,6 +37,7 @@ upgrades_icon = catfunctions.icon_formatter("upgrade_icon.png", 1251, 300, 140, 
 achievements_icon = catfunctions.icon_formatter("achievements_icon.png", 1251, 450, 140, 140)
 
 breadcat_idle = catfunctions.icon_formatter("breadcat_idle.png", 750, 30, 140, 140)
+cat_menu = False
 
 button_test = catfunctions.icon_formatter("button_test.png", 950, 100, 200, 50)
 
@@ -66,9 +69,10 @@ while True:
             if 1251 <= mouse[0] <= 1251 + 149 and 0 <= mouse[1] <= 139:
                 catfunctions.box(background, 750, 50)
                 # background.blit(button_test[0], button_test[1])
-                background.blit(breadcat_idle[0], breadcat_idle[1])
-                background.blit(breadcat_name[0], breadcat_name[1])
-                background.blit(breadcat_lvl[0], breadcat_lvl[1])
+                if cat_menu:
+                    cat_menu = False
+                else:
+                    cat_menu = True
 
     mouse = pg.mouse.get_pos()
     if 1251 <= mouse[0] <= 1251 + 149 and 0 <= mouse[1] <= 139:
@@ -77,10 +81,19 @@ while True:
     else:
         pg.draw.rect(background, color_light, [1253, 0, 149, 137])
 
-    if 700 <= mouse[0] <= 1251 + 149 and 0 <= mouse[1] <= 139:
-        pg.draw.rect(background, color_dark, [1253, 0, 149, 137])
+    if cat_menu:
+        catfunctions.box(background, 750, 50)
+        background.blit(breadcat_idle[0], breadcat_idle[1])
+        background.blit(breadcat_name[0], breadcat_name[1])
+        background.blit(breadcat_lvl[0], breadcat_lvl[1])
+        background.blit(breadcat_upgrade[0], breadcat_upgrade[1])
+        if 1100 <= mouse[0] <= 1100 + 100 and 60 <= mouse[1] <= 160:
+            pg.draw.rect(background, (0, 0, 0), [1110, 65, 60, 70])
+        else:
+            pg.draw.rect(background, (255, 255, 255), [1110, 65, 60, 70])
+            background.blit(breadcat_upgrade[0], breadcat_upgrade[1])
     else:
-        pg.draw.rect(background, color_light, [1253, 0, 149, 137])
+        pg.draw.rect(background, (255, 255, 255), [710, 5, 530, 690])
 
     background.blit(cat_icon[0], cat_icon[1])
     pg.display.update()
