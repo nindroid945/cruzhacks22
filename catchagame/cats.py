@@ -1,5 +1,6 @@
-# names: dogcat, breadcat, applecat, suscat
+all_cats = ["dogcat", "breadcat", "applecat", "suscat"]
 # icons: dogcat_idle.png, etc.
+
 class Cat:
     def __init__(self, name, icon, cost):
         self.level = 0
