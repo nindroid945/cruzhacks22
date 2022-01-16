@@ -23,10 +23,12 @@ kibble_counter = catfunctions.create_text(str(p.kibble), 100, 40, 50)
 fish_counter = catfunctions.create_text(str(p.fish), 100, 130, 50)
 milk_counter = catfunctions.create_text(str(p.milk), 100, 240, 50)
 
+"""
 breadcat_lvl = catfunctions.create_text(f"level: {base_level}", 900, 100, 20)
 breadcat_name = catfunctions.create_text("breadcat", 900, 60, 30)
 breadcat_upgrade = catfunctions.icon_formatter("upgrade_icon.png", 1100, 60, 80, 80)
 upgrade_hover = catfunctions.icon_formatter("upgrade_icon.png", 1080, 40, 100, 100)
+"""
 
 breadcat_idle = catfunctions.icon_formatter("breadcat_idle.png", 750, 30, 140, 140)
 cat_menu = False
@@ -64,33 +66,41 @@ while True:
         if event.type == pg.MOUSEBUTTONDOWN:
             # click counter
             if 0 <= mouse[0] <= 700 and 0 <= mouse[1] <= 700:
-                p.kibble += 1
+                p.kibble += p.kpc
                 pg.draw.rect(background, (255, 255, 255), [100, 0, 598, 100])
                 kibble_counter = catfunctions.create_text(str(p.kibble), 100, 40, 50)
                 background.blit(kibble_counter[0], kibble_counter[1])
-            """
-            if 1251 <= mouse[0] <= 1400 and 0 <= mouse[1] <= 139:
-                catfunctions.box(background, 750, 50)
-                # background.blit(button_test[0], button_test[1])
-                cat_menu = not cat_menu
-            """
             if 1251 <= mouse[0] <= 1400:
                 # cat
                 if 0 <= mouse[1] <= 139:
-                    catfunctions.box(background, 750, 50)
+                    # catfunctions.box(background, 750, 50)
                     # background.blit(button_test[0], button_test[1])
                     cat_menu = not cat_menu
+                    gacha_menu, upgrade_menu, achievements_menu = [False, False, False]
                 # gacha
                 if 139 < mouse[1] <= 289:
                     gacha_menu = not gacha_menu
+                    cat_menu, upgrade_menu, achievements_menu = [False, False, False]
                 # upgrade
                 if 289 < mouse[1] <= 439:
                     upgrade_menu = not upgrade_menu
+                    cat_menu, gacha_menu, achievements_menu = [False, False, False]
                 # achievement
                 if 439 < mouse[1] <= 589:
                     achievements_menu = not achievements_menu
+                    cat_menu, gacha_menu, upgrade_menu = [False, False, False]
                 # exit
                 # if 589 < mouse[1] <= 700:
+            if cat_menu:
+                if 1100 <= mouse[0] <= 1100 + 100 and 60 <= mouse[1] <= 160:
+                    if p.kibble >= 10:
+                        base_level += 1
+                        p.kpc += 1
+                        p.kibble -= 10
+                        pg.draw.rect(background, (255, 255, 255), [100, 0, 598, 100])
+                        kibble_counter = catfunctions.create_text(str(p.kibble), 100, 40, 50)
+                        background.blit(kibble_counter[0], kibble_counter[1])
+
 
     # hover
     mouse = pg.mouse.get_pos()
@@ -136,16 +146,34 @@ while True:
         pg.draw.rect(background, color_light, [1253, 0, 149, 137])
     """
     if cat_menu:
+        pg.draw.rect(background, (255, 255, 255), [710, 5, 530, 690])
+        breadcat_name = catfunctions.create_text("breadcat", 900, 60, 30)
+        breadcat_lvl = catfunctions.create_text(f"level: {base_level}", 900, 95, 20)
+        breadcat_cost = catfunctions.create_text("cost: 10 kibble", 900, 120, 20)
+        breadcat_upgrade1 = catfunctions.icon_formatter("upgrade_icon.png", 1100, 60, 80, 80)
+        breadcat_upgrade2 = catfunctions.icon_formatter("upgrade_icon.png", 1105, 65, 70, 70)
+        upgrade_hover = catfunctions.icon_formatter("upgrade_icon.png", 1080, 40, 100, 100)
         catfunctions.box(background, 750, 50)
         background.blit(breadcat_idle[0], breadcat_idle[1])
         background.blit(breadcat_name[0], breadcat_name[1])
         background.blit(breadcat_lvl[0], breadcat_lvl[1])
-        background.blit(breadcat_upgrade[0], breadcat_upgrade[1])
+        background.blit(breadcat_upgrade1[0], breadcat_upgrade1[1])
         if 1100 <= mouse[0] <= 1100 + 100 and 60 <= mouse[1] <= 160:
-            pg.draw.rect(background, (0, 0, 0), [1110, 65, 60, 70])
+            pg.draw.rect(background, (255, 255, 255), [1110, 65, 60, 70])
+            background.blit(breadcat_upgrade2[0], breadcat_upgrade2[1])
+            background.blit(breadcat_cost[0], breadcat_cost[1])
         else:
             pg.draw.rect(background, (255, 255, 255), [1110, 65, 60, 70])
-            background.blit(breadcat_upgrade[0], breadcat_upgrade[1])
+            background.blit(breadcat_upgrade1[0], breadcat_upgrade1[1])
+    elif gacha_menu:
+        pg.draw.rect(background, (255, 255, 255), [710, 5, 530, 690])
+        catfunctions.box(background, 750, 250)
+        catfunctions.box(background, 750, 400)
+        kibble_gacha = catfunctions.create_text("kibble gacha", 760, 285, 30)
+        fish_gacha = catfunctions.create_text("fish gacha", 760, 435, 30)
+        background.blit(kibble_gacha[0], kibble_gacha[1])
+        background.blit(fish_gacha[0], fish_gacha[1])
+
     else:
         pg.draw.rect(background, (255, 255, 255), [710, 5, 530, 690])
 
